@@ -16,6 +16,7 @@ using HospitalWebApp.Repositories;
 
 using Microsoft.EntityFrameworkCore;
 using HospitalWebApp.Interfaces;
+using HospitalWebApp.Entities;
 
 namespace HospitalWebApp
 {
@@ -34,9 +35,10 @@ namespace HospitalWebApp
             services.AddControllers();
 
             services.AddDbContext<ApplicationContext>(opts =>
-      opts.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+                 opts.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
             services.AddScoped(typeof(IPatient<Patient, int>), typeof(PatientRepository));
             services.AddScoped(typeof(IDoctor<Doctor, int>), typeof(DoctorRepository));
+            services.AddScoped(typeof(IOutPatient<OutPatient, int>), typeof(OutPatientRepository));
             services.AddMvc();
         }
 
