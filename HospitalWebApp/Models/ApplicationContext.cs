@@ -10,12 +10,13 @@ namespace HospitalWebApp.Models
     {
         public ApplicationContext(DbContextOptions opts) : base(opts)
         {
-        }
-        public DbSet<Patient> Patients { get; set; }
-
+        }        
+        public DbSet<CaseType> CaseTypes { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
-
         public DbSet<OutPatient> OutPatients { get; set; }
+
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Relationship> Relationships { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
         }

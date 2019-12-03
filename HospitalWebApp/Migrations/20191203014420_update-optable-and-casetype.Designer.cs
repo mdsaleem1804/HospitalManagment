@@ -4,14 +4,16 @@ using HospitalWebApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HospitalWebApp.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20191203014420_update-optable-and-casetype")]
+    partial class updateoptableandcasetype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,8 +94,6 @@ namespace HospitalWebApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OutPatientId");
-
-                    b.HasIndex("CaseTypeId");
 
                     b.HasIndex("DoctorId");
 
@@ -240,12 +240,6 @@ namespace HospitalWebApp.Migrations
 
             modelBuilder.Entity("HospitalWebApp.Entities.OutPatient", b =>
                 {
-                    b.HasOne("HospitalWebApp.Entities.CaseType", "CaseType")
-                        .WithMany()
-                        .HasForeignKey("CaseTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("HospitalWebApp.Models.Doctor", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorId")
