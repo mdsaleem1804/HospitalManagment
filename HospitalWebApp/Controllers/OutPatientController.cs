@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HospitalWebApp.Entities;
 using HospitalWebApp.Interfaces;
 using HospitalWebApp.Models;
@@ -19,9 +20,9 @@ namespace HospitalWebApp.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<OutPatient> Get()
+        public IEnumerable<OutPatientModel> Get([FromBody] OpDateRangeInputModel request)
         {
-            var outpatients = OutPatientRepository.GetOutPatients();
+            var outpatients = OutPatientRepository.GetOutPatientsDateRange(request.FromDate,request.ToDate);
             return outpatients;
         }
         [HttpPost]

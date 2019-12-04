@@ -5,3 +5,8 @@
 /.vs/HospitalManagement/v16
 /.vs/HospitalManagement/DesignTimeBuild
 /.vs/HospitalManagement/config
+/bin
+/obj
+/HospitalWebApp/bin/Release/netcoreapp3.0
+/HospitalWebApp/obj/Release/netcoreapp3.0
+/HospitalWebApp/Properties/PublishProfiles

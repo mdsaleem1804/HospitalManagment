@@ -1,6 +1,7 @@
 ﻿using HospitalWebApp.Entities;
 using HospitalWebApp.Interfaces;
 using HospitalWebApp.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,52 @@ namespace HospitalWebApp.Repositories
             context = _context;
         }
 
-        public IEnumerable<OutPatient> GetOutPatients()
+        public IEnumerable<OutPatientModel> GetOutPatients()
         {
-            var outpatients = context.OutPatients.ToList();
-            return outpatients;
+            
+            var outpatients = context.OutPatients.Include(d => d.Doctor).Include(p=>p.Patient).ToList();
+            
+            var result = new List<OutPatientModel>();
+            for (int i = 0; i <= outpatients.Count()-1; i++)
+            {
+                var singleopmodel = new OutPatientModel()
+                {
+                    OutPatientId= outpatients[i].OutPatientId,
+                    OPEntryDate = outpatients[i].Date,
+                    DoctorName = outpatients[i].Doctor.DoctorName,
+                    PatientName = outpatients[i].Patient.Name,
+                    Fees= outpatients[i].Fees
+                };
+                result.Add(singleopmodel);
+            }
+            
+            return result;
         }
+        public IEnumerable<OutPatientModel> GetOutPatientsDateRange(DateTime fromDate, DateTime toDate)
+        {
 
+            var outpatients = context.OutPatients
+                .Include(d => d.Doctor)
+                .Include(p => p.Patient)
+                .Where(s=>s.Date.Date>= fromDate.Date && s.Date.Date<= toDate.Date).ToList();
+            if (outpatients.Count >= 0 && outpatients != null)
+                throw new Exception();
+            var result = new List<OutPatientModel>();
+            foreach (var outpatient in outpatients)
+            {
+                var singleopmodel = new OutPatientModel()
+                {
+                    OutPatientId = outpatient.OutPatientId,
+                    OPEntryDate = outpatient.Date,
+                    DoctorName = outpatient.Doctor.DoctorName,
+                    PatientName = outpatient.Patient.Name,
+                    Fees = outpatient.Fees
+                };
+                result.Add(singleopmodel);
+            }
+            
+            return result;
+        }
         public OutPatient GetOutPatient(int id)
         {
             var doctor = context.OutPatients.FirstOrDefault(p => p.OutPatientId == id);
