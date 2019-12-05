@@ -12,7 +12,8 @@ namespace HospitalWebApp.Interfaces
 
         IEnumerable<OutPatientModel> GetOPDateRange(DateTime d1, DateTime d2);
 
-        IEnumerable<OutPatientModel> GetOPByPatient(Patient p);
+        IEnumerable<OutPatientModel> GetOPByPatient(int patientid);
+        IEnumerable<OutPatientModel> GetOPByDoctor(int doctorid);
         TEntity GetOutPatient(T id);
 
         int AddOutPatient(TEntity t);

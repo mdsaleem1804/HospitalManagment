@@ -63,12 +63,36 @@ namespace HospitalWebApp.Repositories
 
             return result;
         }
-        public IEnumerable<OutPatientModel> GetOPByPatient(Patient p)
+        public IEnumerable<OutPatientModel> GetOPByPatient(int patientid)
         {
             var outpatients = context.OutPatients
                 .Include(d => d.Doctor)
                 .Include(p => p.Patient)
-                .Where(s => s.PatientId == p.PatientId).ToList();
+                .Where(s => s.PatientId == patientid).ToList();
+            if (outpatients.Count <= 0 && outpatients == null)
+                throw new Exception();
+            var result = new List<OutPatientModel>();
+            foreach (var outpatient in outpatients)
+            {
+                var singleopmodel = new OutPatientModel()
+                {
+                    OutPatientId = outpatient.OutPatientId,
+                    OPEntryDate = outpatient.Date,
+                    DoctorName = outpatient.Doctor.DoctorName,
+                    PatientName = outpatient.Patient.Name,
+                    Fees = outpatient.Fees
+                };
+                result.Add(singleopmodel);
+            }
+
+            return result;
+        }
+        public IEnumerable<OutPatientModel> GetOPByDoctor(int doctorid)
+        {
+            var outpatients = context.OutPatients
+                .Include(d => d.Doctor)
+                .Include(p => p.Patient)
+                .Where(s => s.DoctorId == doctorid).ToList();
             if (outpatients.Count <= 0 && outpatients == null)
                 throw new Exception();
             var result = new List<OutPatientModel>();
@@ -92,7 +116,6 @@ namespace HospitalWebApp.Repositories
             var doctor = context.OutPatients.FirstOrDefault(p => p.OutPatientId == id);
             return doctor;
         }
-
         public int AddOutPatient(OutPatient p)
         {
             context.OutPatients.Add(p);

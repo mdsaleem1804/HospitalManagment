@@ -33,14 +33,24 @@ namespace HospitalWebApp.Controllers
             var outpatients = OutPatientRepository.GetOPDateRange(request.FromDate, request.ToDate);
             return outpatients;
         }
+
         [Route("GetOPByPatient")]
         [HttpGet]
-        public IEnumerable<OutPatientModel> GetOPByPatient([FromBody] Patient p)
+        public IEnumerable<OutPatientModel> GetOPByPatient([FromBody] OPPatientInputModel request)
         {
-            var outpatients = OutPatientRepository.GetOPByPatient(p);
+            var outpatients = OutPatientRepository.GetOPByPatient(request.PatientId);
             return outpatients;
         }
 
+
+        //[Route("")]     // Matches 'api/OutPatient'
+        //[Route("GetOPByDoctor")]  // Matches 'api/OutPatient/GetOPByDoctor'
+        //[HttpGet("{doctorid}")]
+        //public IEnumerable<OutPatientModel> GetOPByDoctor(int doctorid)
+        //{
+        //    var outpatients = OutPatientRepository.GetOPByDoctor(doctorid);
+        //    return outpatients;
+        //}
         [HttpPost]
         public IActionResult Post([FromBody] OutPatient p)
         {
