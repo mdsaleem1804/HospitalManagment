@@ -43,6 +43,14 @@ namespace HospitalWebApp.Controllers
         }
 
 
+        [Route("GetOPByDoctor")]  
+        [HttpGet]
+        public IEnumerable<OutPatientModel> GetOPByDoctor(int doctorid)
+        {
+            var outpatients = OutPatientRepository.GetOPByDoctor(doctorid);
+            return outpatients;
+        }
+
         //[Route("")]     // Matches 'api/OutPatient'
         //[Route("GetOPByDoctor")]  // Matches 'api/OutPatient/GetOPByDoctor'
         //[HttpGet("{doctorid}")]

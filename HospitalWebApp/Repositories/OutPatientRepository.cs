@@ -23,19 +23,7 @@ namespace HospitalWebApp.Repositories
 
             var outpatients = context.OutPatients.Include(d => d.Doctor).Include(p => p.Patient).ToList();
 
-            var result = new List<OutPatientModel>();
-            for (int i = 0; i <= outpatients.Count() - 1; i++)
-            {
-                var singleopmodel = new OutPatientModel()
-                {
-                    OutPatientId = outpatients[i].OutPatientId,
-                    OPEntryDate = outpatients[i].Date,
-                    DoctorName = outpatients[i].Doctor.DoctorName,
-                    PatientName = outpatients[i].Patient.Name,
-                    Fees = outpatients[i].Fees
-                };
-                result.Add(singleopmodel);
-            }
+            List<OutPatientModel> result = IterateOP(outpatients);
 
             return result;
         }
@@ -47,20 +35,7 @@ namespace HospitalWebApp.Repositories
                 .Where(s => s.Date.Date >= fromDate.Date && s.Date.Date <= toDate.Date).ToList();
             if (outpatients.Count <= 0 && outpatients == null)
                 throw new Exception();
-            var result = new List<OutPatientModel>();
-            foreach (var outpatient in outpatients)
-            {
-                var singleopmodel = new OutPatientModel()
-                {
-                    OutPatientId = outpatient.OutPatientId,
-                    OPEntryDate = outpatient.Date,
-                    DoctorName = outpatient.Doctor.DoctorName,
-                    PatientName = outpatient.Patient.Name,
-                    Fees = outpatient.Fees
-                };
-                result.Add(singleopmodel);
-            }
-
+            List<OutPatientModel> result = IterateOP(outpatients);
             return result;
         }
         public IEnumerable<OutPatientModel> GetOPByPatient(int patientid)
@@ -71,19 +46,7 @@ namespace HospitalWebApp.Repositories
                 .Where(s => s.PatientId == patientid).ToList();
             if (outpatients.Count <= 0 && outpatients == null)
                 throw new Exception();
-            var result = new List<OutPatientModel>();
-            foreach (var outpatient in outpatients)
-            {
-                var singleopmodel = new OutPatientModel()
-                {
-                    OutPatientId = outpatient.OutPatientId,
-                    OPEntryDate = outpatient.Date,
-                    DoctorName = outpatient.Doctor.DoctorName,
-                    PatientName = outpatient.Patient.Name,
-                    Fees = outpatient.Fees
-                };
-                result.Add(singleopmodel);
-            }
+            List<OutPatientModel> result = IterateOP(outpatients);
 
             return result;
         }
@@ -95,6 +58,11 @@ namespace HospitalWebApp.Repositories
                 .Where(s => s.DoctorId == doctorid).ToList();
             if (outpatients.Count <= 0 && outpatients == null)
                 throw new Exception();
+            List<OutPatientModel> result = IterateOP(outpatients);
+            return result;
+        }
+        private static List<OutPatientModel> IterateOP(List<OutPatient> outpatients)
+        {
             var result = new List<OutPatientModel>();
             foreach (var outpatient in outpatients)
             {
@@ -111,6 +79,8 @@ namespace HospitalWebApp.Repositories
 
             return result;
         }
+
+
         public OutPatient GetOutPatient(int id)
         {
             var doctor = context.OutPatients.FirstOrDefault(p => p.OutPatientId == id);
