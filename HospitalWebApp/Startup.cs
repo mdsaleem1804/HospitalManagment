@@ -17,6 +17,8 @@ using HospitalWebApp.Repositories;
 using Microsoft.EntityFrameworkCore;
 using HospitalWebApp.Interfaces;
 using HospitalWebApp.Entities;
+using AutoMapper;
+using HospitalWebApp.Mappings;
 
 namespace HospitalWebApp
 {
@@ -40,6 +42,20 @@ namespace HospitalWebApp
             services.AddScoped(typeof(IDoctor<Doctor, int>), typeof(DoctorRepository));
             services.AddScoped(typeof(IOutPatient<OutPatient, int>), typeof(OutPatientRepository));
             services.AddMvc();
+            // Start Registering and Initializing AutoMapper
+
+            // Auto Mapper Configurations
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            //services.AddAutoMapper(typeof(Startup));
+
+            // End Registering and Initializing AutoMapper
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

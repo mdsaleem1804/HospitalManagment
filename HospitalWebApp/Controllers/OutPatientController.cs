@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
 using HospitalWebApp.Entities;
 using HospitalWebApp.Interfaces;
 using HospitalWebApp.Models;
@@ -12,15 +13,16 @@ namespace HospitalWebApp.Controllers
     [ApiController]
     public class OutPatientController : ControllerBase
     {
-
         IOutPatient<OutPatient, int> OutPatientRepository;
-        public OutPatientController(IOutPatient<OutPatient, int> oprepo)
+        private readonly IMapper _mapper;
+        public OutPatientController(IOutPatient<OutPatient, int> oprepo, IMapper mapper)
         {
             OutPatientRepository = oprepo;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public IEnumerable<OutPatientModel> Get()
+        public IEnumerable<OPViewModel> Get()
         {
             var outpatients = OutPatientRepository.GetOutPatients();
             return outpatients;
@@ -28,7 +30,7 @@ namespace HospitalWebApp.Controllers
 
         [Route("GetOPDateRange")]
         [HttpGet]
-        public IEnumerable<OutPatientModel> GetOPDateRange([FromBody] OpDateRangeInputModel request)
+        public IEnumerable<OPViewModel> GetOPDateRange([FromBody] OPInputModel request)
         {
             var outpatients = OutPatientRepository.GetOPDateRange(request.FromDate, request.ToDate);
             return outpatients;
@@ -36,18 +38,31 @@ namespace HospitalWebApp.Controllers
 
         [Route("GetOPByPatient")]
         [HttpGet]
-        public IEnumerable<OutPatientModel> GetOPByPatient([FromBody] OPPatientInputModel request)
+        public IEnumerable<OPViewModel> GetOPByPatient([FromBody] OPInputModel request)
         {
             var outpatients = OutPatientRepository.GetOPByPatient(request.PatientId);
             return outpatients;
         }
 
-
-        [Route("GetOPByDoctor")]  
+        [Route("GetOPByDoctor")]
         [HttpGet]
-        public IEnumerable<OutPatientModel> GetOPByDoctor(int doctorid)
+        public IEnumerable<OPViewModel> GetOPByDoctor([FromBody] OPInputModel request)
         {
-            var outpatients = OutPatientRepository.GetOPByDoctor(doctorid);
+            var outpatients = OutPatientRepository.GetOPByDoctor(request.DoctorId);
+            return outpatients;
+        }
+        [Route("GetOPByDoctorAndDateRange")]
+        [HttpGet]
+        public IEnumerable<OPViewModel> GetOPByDoctorAndDateRange([FromBody] OPInputModel request)
+        {
+            var outpatients = OutPatientRepository.GetOPByDoctorAndDateRange(request.DoctorId, request.FromDate, request.ToDate);
+            return outpatients;
+        }
+        [Route("GetOPByCaseType")]
+        [HttpGet]
+        public IEnumerable<OPViewModel> GetOPByCaseType([FromBody] OPInputModel request)
+        {
+            var outpatients = OutPatientRepository.GetOPByCaseType(request.CaseTypeId);
             return outpatients;
         }
 
@@ -68,7 +83,7 @@ namespace HospitalWebApp.Controllers
                 return Ok();
             }
             return Forbid();
-        } 
+        }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] OutPatient p)

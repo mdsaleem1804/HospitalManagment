@@ -258,6 +258,13 @@ namespace HospitalWebApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
+
+            //modelBuilder.Entity<Doctor>().HasData(
+            //    new Doctor { DoctorId = 3, DoctorName = "Dr.Ramalakshmi" },
+            //    new Doctor { DoctorId = 4, DoctorName = "Dr.Suresh" },
+            //    new Doctor { DoctorId = 3, DoctorName = "Dr.Kannan" },
+            //    new Doctor { DoctorId = 3, DoctorName = "Dr.Gokul" }
+    );
 #pragma warning restore 612, 618
         }
     }

@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 
 namespace HospitalWebApp.Models
 {
-    public class OpDateRangeInputModel
+    public class OPInputModel
     {
+        public int PatientId { get; set; }
+        public int DoctorId { get; set; }
+        public int CaseTypeId { get; set; }
         public DateTime FromDate { get; set; }
 
         public DateTime ToDate { get; set; }

@@ -45,10 +45,10 @@ namespace HospitalWebApp.Repositories
         public int DeletePatient(int id)
         {
             int res = 0;
-            var patient = context.Patients.FirstOrDefault(p => p.PatientId == id);
-            if(patient!=null)
+            var patient = context.Patients.Find(id);
+            if (patient != null)
             {
-                context.Patients.Remove(patient);
+                patient.IsActive = false;
                 res = context.SaveChanges();
             }
             return res;

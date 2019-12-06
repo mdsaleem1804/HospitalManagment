@@ -8,14 +8,14 @@ namespace HospitalWebApp.Interfaces
 {
     public interface IOutPatient<TEntity, T> where TEntity : class
     {
-        IEnumerable<OutPatientModel> GetOutPatients();
+        IEnumerable<OPViewModel> GetOutPatients();
 
-        IEnumerable<OutPatientModel> GetOPDateRange(DateTime d1, DateTime d2);
-
-        IEnumerable<OutPatientModel> GetOPByPatient(int patientid);
-        IEnumerable<OutPatientModel> GetOPByDoctor(int doctorid);
         TEntity GetOutPatient(T id);
-
+        IEnumerable<OPViewModel> GetOPDateRange(DateTime d1, DateTime d2);
+        IEnumerable<OPViewModel> GetOPByPatient(int patientid);
+        IEnumerable<OPViewModel> GetOPByDoctor(int doctorid);
+        IEnumerable<OPViewModel> GetOPByDoctorAndDateRange(int doctorid,DateTime d1, DateTime d2);
+        IEnumerable<OPViewModel> GetOPByCaseType(int doctorid);
         int AddOutPatient(TEntity t);
 
         int UpdateOutPatient(T id, TEntity t);

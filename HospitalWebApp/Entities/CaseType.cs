@@ -13,7 +13,6 @@ namespace HospitalWebApp.Entities
         [StringLength(50, MinimumLength = 2)]
         public string Description { get; set; }
 
-
         public Boolean IsActive { get; set; }
         public String CreateOperator { get; set; }
         public String UpdateOperator { get; set; }
